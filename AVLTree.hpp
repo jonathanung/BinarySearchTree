@@ -28,7 +28,6 @@ class AVLTree : public BinarySearchTree<T> {
         void balancePath(const T &);
         int balanceFactor(AVLTreeNode<T>*);
         void updateHeight(AVLTreeNode<T> *);
-        // we can call the balancers with TreeNode<T> since AVLTreeNode<T> is a subclass of it.
         void rotateLL(AVLTreeNode<T>*, TreeNode<T>*);
         void rotateLR(AVLTreeNode<T>*, TreeNode<T>*);
         void rotateRR(AVLTreeNode<T>*, TreeNode<T>*);
