@@ -23,8 +23,8 @@ class BinarySearchTree {
         ~BinarySearchTree() { destroy(root); }
         TreeNode<T> *createNewNode(const T) { return new TreeNode<T>(d); }
         void destroy(TreeNode<T> *);
-        bool insert(const T);
-        bool remove(const T);
+        bool insert(const T&);
+        bool remove(const T&);
         bool search(const T v) const { return searchNode(v) != nullptr; }
         TreeNode<T>* searchNode(const T) const;
         TreeNode<T>* searchParent(const T) const;
@@ -59,7 +59,7 @@ void BinarySearchTree<T>::destroy(TreeNode<T> * node) {
 }
 
 template <class T>
-bool BinarySearchTree<T>::insert(const T val) {
+bool BinarySearchTree<T>::insert(const T& val) {
     if(search(val)) return false;
     TreeNode<T> *temp = createNewNode(val);
     size++;
@@ -90,7 +90,7 @@ bool BinarySearchTree<T>::insert(const T val) {
 }
 
 template <class T>
-bool BinarySearchTree<T>::remove(const T val) {
+bool BinarySearchTree<T>::remove(const T& val) {
     TreeNode<T> *parent = searchParent(val);
     TreeNode<T> *curr = searchNode(val);
     bool left = true;
