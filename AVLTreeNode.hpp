@@ -10,8 +10,9 @@ template <class T>
  * @author Jonathan Ung
  */
 class AVLTreeNode : public TreeNode<T> {
-    size_t height;
-    AVLTreeNode(const T&);
+    public:
+        size_t height;
+        AVLTreeNode(const T&);
 };
 
 template <class T>

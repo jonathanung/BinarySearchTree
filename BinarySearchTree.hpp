@@ -13,32 +13,33 @@ template <class T>
  * @author Jonathan Ung
  */
 class BinarySearchTree {
-    private:
+    protected: //accessible from subclasses
         TreeNode<T> *root;
         size_t size;
+        TreeNode<T> *createNewNode(const T& d) { return new TreeNode<T>(d); }
 
     public:
         BinarySearchTree() { size = 0, root = nullptr; }
         BinarySearchTree(std::vector<T>);
         ~BinarySearchTree() { destroy(root); }
-        TreeNode<T> *createNewNode(const T) { return new TreeNode<T>(d); }
-        void destroy(TreeNode<T> *);
         bool insert(const T&);
         bool remove(const T&);
         bool search(const T v) const { return searchNode(v) != nullptr; }
         TreeNode<T>* searchNode(const T) const;
         TreeNode<T>* searchParent(const T) const;
         size_t getSize() const { return size; }
-        void clear() { destroy(root); }
         std::vector<TreeNode<T> *> path(const T) const;
-
-        void printInOrder() const { inOrder(root); }
-        void inOrder(TreeNode<T> *) const;
-        void printPreOrder() const { preOrder(root); }
-        void preOrder(TreeNode<T> *) const;
-        void printPostOrder() const { postOrder(root); }
-        void postOrder(TreeNode<T> *) const;
+        void clear() { destroy(root); }
+        void inOrder() const { inOrder(root); }
+        void preOrder() const { preOrder(root); }
+        void postOrder() const { postOrder(root); }
         void printStructure(TreeNode<T> * = nullptr, bool = false, int = 0) const;
+    
+    private:
+        void destroy(TreeNode<T> *);
+        void inOrder(TreeNode<T> *) const;
+        void preOrder(TreeNode<T> *) const;
+        void postOrder(TreeNode<T> *) const;
 };
 
 template <class T>
@@ -56,6 +57,7 @@ void BinarySearchTree<T>::destroy(TreeNode<T> * node) {
         delete node;
         node = nullptr;
     }
+    size = 0;
 }
 
 template <class T>
@@ -100,37 +102,28 @@ bool BinarySearchTree<T>::remove(const T& val) {
         left = false;
     }
     if (curr->left != nullptr && curr->right != nullptr){
-        TreeNode<T> *nextParent = curr;
         TreeNode<T> *next = curr->right;
         while (next->left != nullptr) {
-            nextParent = next;
             next = next->left;
         }
         if (!parent) root = curr->right;
         else if (left) parent->left = curr->right;
         else parent->right = curr->right;
         next->left = curr->left;
-        delete curr;
-        curr = nullptr;
-        return true;
     }
     if(curr->left == nullptr) {
         if (!parent) root = curr->right;
         else if (left) parent->left = curr->right; 
         else parent->right = curr->right;
-        delete curr;
-        curr = nullptr;
-        return true;
     }
     if(curr->right == nullptr) {
         if (!parent) root = curr->left;
         else if (left) parent->left = curr->left;
         else parent->right = curr->left;
-        delete curr;
-        curr = nullptr;
-        return true;
     }
-    return false;
+    delete curr;
+    curr = nullptr;
+    return true;
 }
 
 template <class T>
@@ -138,7 +131,7 @@ TreeNode<T>* BinarySearchTree<T>::searchNode(const T val) const {
     TreeNode<T> *curr = root;
     while (curr != nullptr) {
         if (val == curr->data) break;
-        curr = curr->data < val ? curr->right : curr->left;
+        curr = (curr->data < val) ? curr->right : curr->left;
     }
     return curr;
 }
@@ -150,7 +143,7 @@ TreeNode<T>* BinarySearchTree<T>::searchParent(const T val) const {
         return nullptr;
     }
     while (curr != nullptr) {
-        TreeNode<T> *next = curr->data < val ? curr->right : curr->left;
+        TreeNode<T> *next = (curr->data < val) ? curr->right : curr->left;
         if (val == next->data) break;
         curr = next;
     }
@@ -162,9 +155,9 @@ std::vector<TreeNode<T>*> BinarySearchTree<T>::path(const T val) const {
     std::vector<TreeNode<T> *> vecPath = std::vector<TreeNode<T> *>();
     TreeNode<T> *curr = root;
     while (curr != nullptr) {
-        vecPath.pushBack(curr);
+        vecPath.push_back(curr);
         if (val == curr->data) break;
-        curr = curr->data < val ? curr->right : curr->left;
+        curr = (curr->data < val) ? curr->right : curr->left;
     }
     return vecPath;
 }
