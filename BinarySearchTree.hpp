@@ -23,8 +23,8 @@ class BinarySearchTree {
         ~BinarySearchTree() { destroy(root); }
         TreeNode<T> *createNewNode(const T) { return new TreeNode<T>(d); }
         void destroy(TreeNode<T> *);
-        void insert(const T);
-        void remove(const T);
+        bool insert(const T);
+        bool remove(const T);
         bool search(const T v) const { return searchNode(v) != nullptr; }
         TreeNode<T>* searchNode(const T) const;
         TreeNode<T>* searchParent(const T) const;
@@ -59,14 +59,14 @@ void BinarySearchTree<T>::destroy(TreeNode<T> * node) {
 }
 
 template <class T>
-void BinarySearchTree<T>::insert(const T val) {
-    if(search(val)) return;
+bool BinarySearchTree<T>::insert(const T val) {
+    if(search(val)) return false;
     TreeNode<T> *temp = createNewNode(val);
     size++;
     if (root == nullptr)
     {
         root = temp;
-        return;
+        return true;
     }
     TreeNode<T> *curr = root;
     while (temp != nullptr) {
@@ -86,15 +86,15 @@ void BinarySearchTree<T>::insert(const T val) {
             }
         }
     }
+    return true;
 }
 
 template <class T>
-void BinarySearchTree<T>::remove(const T val) {
+bool BinarySearchTree<T>::remove(const T val) {
     TreeNode<T> *parent = searchParent(val);
     TreeNode<T> *curr = searchNode(val);
     bool left = true;
-    if (curr == nullptr)
-        return;
+    if (curr == nullptr) return false;
     size--;
     if (parent && parent->right == curr) {
         left = false;
@@ -112,7 +112,7 @@ void BinarySearchTree<T>::remove(const T val) {
         next->left = curr->left;
         delete curr;
         curr = nullptr;
-        return;
+        return true;
     }
     if(curr->left == nullptr) {
         if (!parent) root = curr->right;
@@ -120,7 +120,7 @@ void BinarySearchTree<T>::remove(const T val) {
         else parent->right = curr->right;
         delete curr;
         curr = nullptr;
-        return;
+        return true;
     }
     if(curr->right == nullptr) {
         if (!parent) root = curr->left;
@@ -128,8 +128,9 @@ void BinarySearchTree<T>::remove(const T val) {
         else parent->right = curr->left;
         delete curr;
         curr = nullptr;
-        return;
+        return true;
     }
+    return false;
 }
 
 template <class T>
