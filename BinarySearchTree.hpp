@@ -4,6 +4,7 @@
 #include "TreeNode.hpp"
 #include <iostream>
 #include <algorithm>
+#include <vector>
 
 template <class T>
 /**
@@ -25,6 +26,10 @@ class BinarySearchTree {
         bool search(const T v) const { return searchNode(v) != nullptr; }
         TreeNode<T>* searchNode(const T) const;
         TreeNode<T>* searchParent(const T) const;
+        size_t getSize() const { return size; }
+        void clear() { destroy(root); }
+        std::vector<TreeNode<T> *> path(const T) const;
+
         void printInOrder() const { inOrder(root); }
         void inOrder(TreeNode<T> *) const;
         void printPreOrder() const { preOrder(root); }
@@ -142,6 +147,17 @@ TreeNode<T>* BinarySearchTree<T>::searchParent(const T val) const {
     return curr;
 }
 
+template <class T>
+std::vector<TreeNode<T>*> BinarySearchTree<T>::path(const T val) const {
+    std::vector<TreeNode<T> *> vecPath = std::vector<TreeNode<T> *>();
+    TreeNode<T> *curr = root;
+    while (curr != nullptr) {
+        vecPath.pushBack(curr);
+        if (val == curr->data) break;
+        curr = curr->data < val ? curr->right : curr->left;
+    }
+    return vecPath;
+}
 
 template <class T>
 void BinarySearchTree<T>::inOrder(TreeNode<T>* curr) const {
