@@ -19,7 +19,9 @@ class BinarySearchTree {
 
     public:
         BinarySearchTree() { size = 0, root = nullptr; }
+        BinarySearchTree(std::vector<T>);
         ~BinarySearchTree() { destroy(root); }
+        TreeNode<T> *createNewNode(const T) { return new TreeNode<T>(d); }
         void destroy(TreeNode<T> *);
         void insert(const T);
         void remove(const T);
@@ -40,6 +42,13 @@ class BinarySearchTree {
 };
 
 template <class T>
+BinarySearchTree<T>::BinarySearchTree(std::vector<T> vec) : BinarySearchTree<T>() {
+    for (T val : vec) {
+        insert(val);
+    }
+}
+
+template <class T>
 void BinarySearchTree<T>::destroy(TreeNode<T> * node) {
     if (node != nullptr) {
         destroy(node->left);
@@ -52,7 +61,7 @@ void BinarySearchTree<T>::destroy(TreeNode<T> * node) {
 template <class T>
 void BinarySearchTree<T>::insert(const T val) {
     if(search(val)) return;
-    TreeNode<T> *temp = new TreeNode<T>(val);
+    TreeNode<T> *temp = createNewNode(val);
     size++;
     if (root == nullptr)
     {

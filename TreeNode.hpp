@@ -11,12 +11,12 @@ class TreeNode{
     public:
         int data;
         TreeNode<T> *left, *right;
-        TreeNode(int);
+        TreeNode(const T &);
         ~TreeNode() {};
 };
 
 template <class T>
-TreeNode<T>::TreeNode(int d) {
+TreeNode<T>::TreeNode(const T& d) {
     data = d;
     left = nullptr, right = nullptr;
 }
