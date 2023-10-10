@@ -12,6 +12,7 @@ class TreeNode{
         int data;
         TreeNode<T> *left, *right;
         TreeNode(int);
+        ~TreeNode() {};
 };
 
 template <class T>
