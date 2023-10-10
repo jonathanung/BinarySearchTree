@@ -122,6 +122,15 @@ void AVLTree<T>::updateHeight(AVLTreeNode<T> * node) {
 }
 
 template <class T>
+/**
+ * @brief Fixes LL imbalance. LL imbalance occurs when the current node has an imbalance on the left side, and
+ * the node left of the current (left child) has an imbalance on left side. The left child's right subtree 
+ * is then placed on the left side of the current node, and the left child's right subtree is assigned to the
+ * current node.
+ * 
+ * @param curr 
+ * @param parent 
+ */
 void AVLTree<T>::rotateLL(AVLTreeNode<T>* curr, TreeNode<T>* parent) {
     AVLTreeNode<T> *currLChild = static_cast<AVLTreeNode<T>*>(curr->left);
     if (parent == nullptr) this->root = currLChild;
@@ -134,6 +143,16 @@ void AVLTree<T>::rotateLL(AVLTreeNode<T>* curr, TreeNode<T>* parent) {
 }
 
 template <class T>
+/**
+ * @brief Fixes LR imbalance. LR imbalance occurs when the current node has an imbalance on the left side, and
+ * the node left of the current (left child) has an imbalance on the right side. The left child's right child
+ * then must have its children swapped, by placing its right tree on the current node's left side, and its left
+ * tree on the left child's right side. Afterwards, the left child's old right child takes on the current node's 
+ * left child as its left subtree and the current node as its right subtree.
+ * 
+ * @param curr 
+ * @param parent 
+ */
 void AVLTree<T>::rotateLR(AVLTreeNode<T>* curr, TreeNode<T>* parent) {
     AVLTreeNode<T> *currLChild = static_cast<AVLTreeNode<T>*>(curr->left);
     AVLTreeNode<T> *lChildR = static_cast<AVLTreeNode<T>*>(currLChild->right);
@@ -150,6 +169,15 @@ void AVLTree<T>::rotateLR(AVLTreeNode<T>* curr, TreeNode<T>* parent) {
 }
 
 template <class T>
+/**
+ * @brief Fixes RR imbalance. RR imbalance occurs when the current node has an imbalance on the right side, and
+ * the node right of the current (right child) has an imbalance on right side. The right child's right subtree 
+ * is then placed on the right side of the current node, and the right child's right subtree is assigned to the
+ * current node.
+ * 
+ * @param curr 
+ * @param parent 
+ */
 void AVLTree<T>::rotateRR(AVLTreeNode<T>* curr, TreeNode<T>* parent) {
     AVLTreeNode<T> *currRChild = static_cast<AVLTreeNode<T>*>(curr->right);
     if (parent == nullptr) this->root = currRChild;
@@ -162,6 +190,16 @@ void AVLTree<T>::rotateRR(AVLTreeNode<T>* curr, TreeNode<T>* parent) {
 }
 
 template <class T>
+/**
+ * @brief Fixes RL imbalance. RL imbalance occurs when the current node has an imbalance on the right side, and
+ * the node right of the current (right child) has an imbalance on the left side. The right child's left child
+ * then must have its children swapped, by placing its left tree on the current node's right side, and its right
+ * tree on the right child's left side. Afterwards, the right child's old left child takes on the current node's 
+ * right child as its right subtree and the current node as its left subtree.
+ * 
+ * @param curr 
+ * @param parent 
+ */
 void AVLTree<T>::rotateRL(AVLTreeNode<T>* curr, TreeNode<T>* parent) {
     AVLTreeNode<T> *currRChild = static_cast<AVLTreeNode<T>*>(curr->right);
     AVLTreeNode<T> *rChildL = static_cast<AVLTreeNode<T>*>(currRChild->left);
